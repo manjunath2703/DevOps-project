@@ -13,6 +13,12 @@ stages {
         }
     }
 
+    stage('Docker Login') {
+        steps {
+            sh 'echo YOUR_DOCKER_PASSWORD | docker login -u manjunathbm2003 --password-stdin'
+        }
+    }
+
     stage('Push Docker Image') {
         steps {
             sh 'docker push $DOCKER_IMAGE'
