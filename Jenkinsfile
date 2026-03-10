@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "manjunathbm2003/devops-app"
-        DOCKER_USER  = "manjunathbm2003"
     }
 
     stages {
@@ -16,8 +15,8 @@ pipeline {
 
         stage('Docker Login') {
             steps {
-                withCredentials([string(credentialsId: 'dockerhub', variable: 'TOKEN')]) {
-                    sh 'echo $TOKEN | docker login -u $DOCKER_USER --password-stdin'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    sh 'echo $PASS | docker login -u $USER --password-stdin'
                 }
             }
         }
@@ -33,5 +32,6 @@ pipeline {
                 sh 'ansible-playbook playbook.yml'
             }
         }
+
     }
 }
